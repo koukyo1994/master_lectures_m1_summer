@@ -5,7 +5,7 @@
 
 %opening
 \title{解析数理要論課題1}
-\author{}
+\author{航空宇宙工学専攻 荒居秀尚 37-186305}
 
 \begin{document}
 
@@ -25,10 +25,6 @@ $x_1,x_2,x_3...$を実数の列とする。このとき、
 Youngの不等式は、$a,b,p,q \in \mathcal{R}$、$a,b \ge 0$、$1 < p < \infty$、$\frac{1}{p}+\frac{1}{q}=1$としたとき、
 \begin{equation}
  ab \le \frac{a^p}{p} + \frac{b^q}{q}
-\end{equation}
-または、
-\begin{equation}
- ab \le \epsilon a^p + (1-\epsilon)b^q
 \end{equation}
 と表される。これを示す。\\
 
@@ -121,5 +117,62 @@ $X$:Banach空間とする。$X$の点列$\{x_n\}$が$\sum_{n=1}^\infty \|x_n\| <
 \end{equation}
 であるが左辺は収束するため$\{S_N\}$はCauchy列である。ここで$X$はBanachであるから$X$の全てのCauchy列は収束する。\\
 したがって$\{S_N\}$は収束するため、級数$\sum_{n=1}^\infty x_n$は$X$で和を持つ。
+
+\subsection{(2)}
+ノルム空間$X$の点列で$\sum_{n=1}^\infty \|x_n\| < \infty$を満たす任意の点列について、その級数が$X$で常に和を持つ、すなわち$S_N = \sum_{n=1}^N x_n$の列$\{S_N\}_{N=1}^\infty$が収束するとき、
+$X$が完備であることを示す。$X$の完備性を示すためには$X$から任意に選んだコーシー列$z_n$が$X$の一点に収束することを示せば良い。
+
+しかし、$z_n~(n=1,2,...)$を示すためには、$z_n$の部分列$z_{\nu(k)}~(k=1,2,...)$が$X$の一点に収束することを示せば良い。なぜならば、この部分列が収束するとき任意の$\epsilon>0$に対して、
+ある$N_1,N_2\in\mathcal{N}$が存在し、$z_n$がコーシー列であることから
+\begin{equation}
+ \|z_i - z_j\|<\frac{\epsilon}{2},~\forall i,j\ge N_1
+\end{equation}
+が成り立つ。また、部分列$z_{\nu(k)}$の収束性より
+\begin{equation}
+ \|z_{\nu(k)}-z^*\|<\frac{\epsilon}{2},~\forall k\ge N_2,~\forall \nu(k)\ge N_1
+\end{equation}
+以上の二式から以下のようにコーシー列$z_n$の収束性が示される。
+\begin{equation}
+ \|z_i - z^*\|\le\|z_i-z_{\nu(k)}\|+\|z_{\nu(k)}-z^*\|<\epsilon,~\forall i\ge N_1,\forall k \ge N_2
+\end{equation}
+
+したがって以下では、コーシー列$z_n$にXに収束する部分列$z_{\nu(k)}$が存在することを示す。\\
+
+任意の$k\in\mathcal{N}$に対しある$\nu(k)\in\mathcal{N}$が存在し、
+\begin{equation}
+ i,j\ge\nu(k)\Rightarrow\|z_i-z_j\|<\frac{1}{2^k}
+\end{equation}
+となる。このとき
+\begin{equation}
+ i,j\ge\nu(k-1)\Rightarrow\|z_i-z_j\|<\frac{1}{2^{k-1}}
+\end{equation}
+であるから、
+\begin{equation}
+ \|z_{\nu(k)}-z_{\nu(k-1)}\|<\frac{1}{2^{k-1}}~(k=2,3,...)
+\end{equation}
+を満たす。ここで、
+\begin{equation}
+ x_k:=\begin{cases}
+       z_{\nu(k)} ~~~(k=1) \\
+       z_{\nu(k)}-z_{\nu(k-1)}~~~(k=2,3...) 
+      \end{cases}
+\end{equation}
+とすると、
+\begin{align}
+ \sum_{i=1}^\infty\|x_i\|&=\|z_{\nu(1)}\|+\sum_{i=2}^\infty \|z_{\nu(i)}-z_{\nu(i-1)}\| \\
+                         &\le 1+\sum_{i=2}^\infty \frac{1}{2^{i-1}} = 2 < \infty
+\end{align}
+一方、ある$z^*\in X$として
+\begin{equation}
+ z_{\nu(k)}=\sum_{i=1}^k x_i=z_{\nu(1)} + \sum_{i=2}^k (z_{\nu(i)}-z_{\nu(i-1)})\to z^*\in X~~(k\to\infty)
+\end{equation}
+となるため部分列$z_{\nu(k)}$は収束するから任意のCauchy列$z_n$は収束するため$X$はBanachである。
+
+\section{参考文献}
+
+1. 山田功(2009) 工学のための関数解析. サイエンス社\\
+
+2. 黒田成俊(1980) 関数解析. 共立出版\\
+
 
 \end{document}
