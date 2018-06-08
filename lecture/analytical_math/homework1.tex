@@ -1,0 +1,178 @@
+\documentclass[a4paper,10pt]{jsarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath}
+
+%opening
+\title{解析数理要論課題1}
+\author{航空宇宙工学専攻 荒居秀尚 37-186305}
+
+\begin{document}
+
+\maketitle
+
+\section{問題1}
+\subsection{Youngの不等式}
+Jensenの不等式を用いる。Jensenの不等式は以下のようなものである。\\
+
+$f(x)$を$\mathcal{R}$上の凸関数とする。$p_i\in \mathcal{R}~(i=1,2,3...)$、$\sum_{i=1}^\infty p_i=1$とし、
+$x_1,x_2,x_3...$を実数の列とする。このとき、
+\begin{equation}
+ \sum_{i=1}^\infty p_if(x_i) \ge f\left(\sum_{i=1}^\infty p_ix_i\right)
+\end{equation}
+
+となる、というのがJensenの不等式の主張である。\\
+Youngの不等式は、$a,b,p,q \in \mathcal{R}$、$a,b \ge 0$、$1 < p < \infty$、$\frac{1}{p}+\frac{1}{q}=1$としたとき、
+\begin{equation}
+ ab \le \frac{a^p}{p} + \frac{b^q}{q}
+\end{equation}
+と表される。これを示す。\\
+
+$f(x)=e^x$とするとこれは$\mathcal{R}$上の凸関数である。Jensenの不等式より$\frac{1}{p}+\frac{1}{q}=1$を満たすような$p,q \in \mathcal{R}$、$p,q > 1$について
+$x, y \in \mathcal{R}$をとって
+\begin{equation}
+ \frac{e^x}{p}+\frac{e^y}{q}\ge e^{\frac{x}{p}+\frac{y}{q}}
+\end{equation}
+
+となる。ここで、$x=p\log a$、$y=q\log b$とすると、
+\begin{align}
+ &\frac{e^{p\log a}}{p}+\frac{e^{q\log b}}{q} \ge e^{\frac{p\log a}{p}+\frac{q\log b}{q}} \\
+ \iff&\frac{e^{\log a^p}}{p}+\frac{e^{\log b^q}}{q} \ge e^{\log a + \log b} \\
+ \iff&\frac{a^p}{p}+\frac{b^q}{q}\ge ab
+\end{align}
+
+\subsection{H\"{o}lderの不等式}
+$p, q\in\mathcal{R}$、$1 < p < \infty$、$\frac{1}{p} + \frac{1}{q}=1$を満たす数とする。$u \in L^p(a, b)$、$v \in L^q(a, b)$とする。このとき$uv\in L^1(a,b)$であり
+\begin{equation}
+ \int_a^b |uv|dx \le \|u\|_p \|v\|_q
+\end{equation}
+となる、というのがH\"{o}lderの不等式の主張である。\\
+$s = \frac{|u|}{\|u\|_p}$、$t = \frac{|v|}{\|v\|_q}$とすると、Youngの不等式により
+\begin{equation}
+ \frac{|uv|}{\|u\|_p \|v\|_q} = \frac{|u||v|}{\|u\|_p \|v\|_q} \le \frac{|u|^p}{p\|u\|_p^p} + \frac{|v|^q}{q\|v\|_q^q}
+\end{equation}
+
+となる。ここで両辺を積分すると
+\begin{align}
+ \int_a^b \frac{|uv|}{\|u\|_p\|v\|_q}dx &\le \int_a^b \frac{|u|^p}{p\|u\|_p^p} dx + \int_a^b \frac{|v|^q}{q\|v\|_q^q} dx \\
+  & = \frac{1}{p\|u\|_p^p}\int |u|^p dx + \frac{1}{q\|v\|_q^q}\int |v|^q dx \\
+  & = \frac{1}{p\|u\|_p^p}\|u\|_p^p + \frac{1}{q\|v\|_q^q}\|v\|_q^q \\
+  & = \frac{1}{p} + \frac{1}{q} \\
+  & = 1
+\end{align}
+したがって、両辺に$\|u\|_p\|v\|_q$を掛けることで、
+\begin{equation}
+ \int_a^b |uv|dx \le \|u\|_p\|v\|_q
+\end{equation}
+を得る。
+\subsection{Minkowskiの不等式}
+$1<p<\infty$とするとき、$u,v\in L^p(a, b)$ならば$u+v\in L^p(a, b)$であり、
+\begin{equation}
+ \|u+v\|_p\le\|u\|_p + \|v\|_p
+\end{equation}
+となる、というのがMinkowskiの不等式の主張である。\\
+
+まず、$|u(x) + v(x)|^p\le(|u(x)|+|v(x)|^p\le2^{p-1}(|u(x)|^p+|v(x)|^p))$であるから、
+\begin{equation}
+ \|u+v\|_{L^p}=\left(\int_a^b |u+v|^pdx\right)^{1/p} < \infty
+\end{equation}
+より、$u+v\in L^p(a, b)$である。ここで、$\frac{1}{p}+\frac{1}{q}=1$を満たすような$q$を考えると、$q=p/(p-1)$であるから、
+\begin{equation}
+ \||u+v|^{p-1}\|_{L^q}=\left(\int_a^b |u+v|^{(p-1)\frac{p}{p-1}}\right)^{1-1/p} < \infty
+\end{equation}
+ゆえに$|u+v|^{p-1}\in L^q$である。
+\begin{equation}
+ \|u+v\|_p^p = \int_a^b |u+v|^pdx \le \int_a^b |u+v|^{p-1}|u|dx + \int_a^b |u+v|^{p-1}|v|dx
+ \label{mink}
+\end{equation}
+の右辺第一項にH\"{o}lderの不等式を適用すると、
+\begin{align}
+ &\int_a^b |u+v|^{p-1}|u|dx \le \left(\int_a^b |u|^pdx\right)^{1/p}\left(\int_a^b |u+v|^{(p-1)q}\right)^{1/q}\\
+ \iff & \int_a^b |u+v|^{p-1}|u|dx \le \left(\int_a^b |u|^pdx \right)^{1/p}\left( \int_a^b |u+v|^{p}\right)^{1/q}
+ \label{one}
+\end{align}
+同様にして右辺第二項も
+\begin{equation}
+ \int_a^b |u+v|^{p-1}|v|dx \le \left( \int_a^b |v|^pdx \right)^{1/p}\left(\int_a^b |u+v|^{p}\right)^{1/q}
+ \label{two}
+\end{equation}
+となる。式(\ref{mink})に式(\ref{one}, \ref{two})を適用することにより
+\begin{align}
+ &\|u+v\|_p^p \le \left(\int_a^b |u|^pdx \right)^{1/p}\left( \int_a^b |u+v|^{p}\right)^{1/q} + \left( \int_a^b |v|^pdx \right)^{1/p}\left(\int_a^b |u+v|^{p}\right)^{1/q}\\
+ \iff & \|u+v\|_p^p \le \|u\|_p\left(\int_a^b |u+v|^{p}\right)^{(p-1)/p} + \|v\|_q\left(\int_a^b |u+v|^{p}\right)^{(p-1)/p} \\
+ \iff & \frac{\|u+v\|_p^p}{\|u+v\|_p^{p-1}}\le \|u\|_p + \|v\|_p \\
+ \iff & \|u+v\|_p \le \|u\|_p + \|v\|_p
+\end{align}
+を得る。
+\section{問題2}
+Banach空間$X$の点列$\{x_n\}\subset X$に対し、部分和$S_N :=\sum_{n=1}^Nx_n$の列$\{S_N\}_{N=1}^{\infty}$を考える。これが$X$で収束するとき
+「級数$\sum_{n=1}^\infty$は$X$において和を持つ」という。\\
+\subsection{(1)}
+$X$:Banach空間とする。$X$の点列$\{x_n\}$が$\sum_{n=1}^\infty \|x_n\| < \infty$を満たすとき級数$\sum_{n=1}^\infty x_n$は$X$で和を持つことを示す。\\
+
+ここで、$\sum_{n=1}^N\|x_n\|\to0$とする。このとき$N>M$として
+三角不等式より
+\begin{equation}
+ \|S_N-S_M\|=\|\sum_{n=1}^Nx_n -\sum_{m=1}^Mx_m\|=\|\sum_{n=M+1}^Nx_n\|\le\sum_{n=M+1}^N\|x_n\|
+\end{equation}
+であるが左辺は収束するため$\{S_N\}$はCauchy列である。ここで$X$はBanachであるから$X$の全てのCauchy列は収束する。\\
+したがって$\{S_N\}$は収束するため、級数$\sum_{n=1}^\infty x_n$は$X$で和を持つ。
+
+\subsection{(2)}
+ノルム空間$X$の点列で$\sum_{n=1}^\infty \|x_n\| < \infty$を満たす任意の点列について、その級数が$X$で常に和を持つ、すなわち$S_N = \sum_{n=1}^N x_n$の列$\{S_N\}_{N=1}^\infty$が収束するとき、
+$X$が完備であることを示す。$X$の完備性を示すためには$X$から任意に選んだコーシー列$z_n$が$X$の一点に収束することを示せば良い。
+
+しかし、$z_n~(n=1,2,...)$を示すためには、$z_n$の部分列$z_{\nu(k)}~(k=1,2,...)$が$X$の一点に収束することを示せば良い。なぜならば、この部分列が収束するとき任意の$\epsilon>0$に対して、
+ある$N_1,N_2\in\mathcal{N}$が存在し、$z_n$がコーシー列であることから
+\begin{equation}
+ \|z_i - z_j\|<\frac{\epsilon}{2},~\forall i,j\ge N_1
+\end{equation}
+が成り立つ。また、部分列$z_{\nu(k)}$の収束性より
+\begin{equation}
+ \|z_{\nu(k)}-z^*\|<\frac{\epsilon}{2},~\forall k\ge N_2,~\forall \nu(k)\ge N_1
+\end{equation}
+以上の二式から以下のようにコーシー列$z_n$の収束性が示される。
+\begin{equation}
+ \|z_i - z^*\|\le\|z_i-z_{\nu(k)}\|+\|z_{\nu(k)}-z^*\|<\epsilon,~\forall i\ge N_1,\forall k \ge N_2
+\end{equation}
+
+したがって以下では、コーシー列$z_n$にXに収束する部分列$z_{\nu(k)}$が存在することを示す。\\
+
+任意の$k\in\mathcal{N}$に対しある$\nu(k)\in\mathcal{N}$が存在し、
+\begin{equation}
+ i,j\ge\nu(k)\Rightarrow\|z_i-z_j\|<\frac{1}{2^k}
+\end{equation}
+となる。このとき
+\begin{equation}
+ i,j\ge\nu(k-1)\Rightarrow\|z_i-z_j\|<\frac{1}{2^{k-1}}
+\end{equation}
+であるから、
+\begin{equation}
+ \|z_{\nu(k)}-z_{\nu(k-1)}\|<\frac{1}{2^{k-1}}~(k=2,3,...)
+\end{equation}
+を満たす。ここで、
+\begin{equation}
+ x_k:=\begin{cases}
+       z_{\nu(k)} ~~~(k=1) \\
+       z_{\nu(k)}-z_{\nu(k-1)}~~~(k=2,3...) 
+      \end{cases}
+\end{equation}
+とすると、
+\begin{align}
+ \sum_{i=1}^\infty\|x_i\|&=\|z_{\nu(1)}\|+\sum_{i=2}^\infty \|z_{\nu(i)}-z_{\nu(i-1)}\| \\
+                         &\le 1+\sum_{i=2}^\infty \frac{1}{2^{i-1}} = 2 < \infty
+\end{align}
+一方、ある$z^*\in X$として
+\begin{equation}
+ z_{\nu(k)}=\sum_{i=1}^k x_i=z_{\nu(1)} + \sum_{i=2}^k (z_{\nu(i)}-z_{\nu(i-1)})\to z^*\in X~~(k\to\infty)
+\end{equation}
+となるため部分列$z_{\nu(k)}$は収束するから任意のCauchy列$z_n$は収束するため$X$はBanachである。
+
+\section{参考文献}
+
+1. 山田功(2009) 工学のための関数解析. サイエンス社\\
+
+2. 黒田成俊(1980) 関数解析. 共立出版\\
+
+
+\end{document}
