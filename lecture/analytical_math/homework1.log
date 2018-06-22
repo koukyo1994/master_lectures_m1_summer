@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.6-141210-2.6 (utf8.euc) (TeX Live 2015/Debian) (preloaded format=platex 2018.4.16)  23 MAY 2018 16:07
+This is e-pTeX, Version 3.14159265-p3.6-141210-2.6 (utf8.euc) (TeX Live 2015/Debian) (preloaded format=platex 2018.4.16)  29 MAY 2018 09:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -490,14 +490,14 @@ LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
 (Font)              scaled to size 4.805pt on input line 18.
 [1
 
-] [2] [3] [4] (./homework1.aux) ) 
+] [2] [3] [4] [5] (./homework1.aux) ) 
 Here is how much of TeX's memory you used:
  1840 strings out of 493723
  20657 string characters out of 6152570
- 89723 words of memory out of 5000000
+ 88723 words of memory out of 5000000
  5391 multiletter control sequences out of 15000+600000
  14829 words of font info for 66 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 27i,10n,21p,241b,225s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 27i,10n,21p,241b,227s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on homework1.dvi (4 pages, 12948 bytes).
+Output written on homework1.dvi (5 pages, 17372 bytes).
