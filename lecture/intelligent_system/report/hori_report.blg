@@ -1,0 +1,47 @@
+This is pBibTeX, Version 0.99d-j0.33 (utf8.euc) (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: hori_report.aux
+The style file: junsrt.bst
+Database file #1: reference.bib
+You've used 7 entries,
+            2270 wiz_defined-function locations,
+            565 strings with 4848 characters,
+and the built_in function-call counts, 1175 in all, are:
+= -- 68
+> -- 25
+< -- 0
++ -- 13
+- -- 6
+* -- 2
+:= -- 139
+add.period$ -- 20
+call.type$ -- 7
+change.case$ -- 7
+chr.to.int$ -- 0
+cite$ -- 7
+duplicate$ -- 77
+empty$ -- 169
+format.name$ -- 12
+if$ -- 291
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 0
+newline$ -- 37
+num.names$ -- 6
+pop$ -- 68
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 81
+stack$ -- 0
+substring$ -- 0
+swap$ -- 7
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 6
+width$ -- 8
+write$ -- 63
+is.kanji.str$ -- 48

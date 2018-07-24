@@ -1,0 +1,233 @@
+\documentclass[10pt,a4paper]{ltjsarticle}       % LuaTeX を使う
+\usepackage[luatex,draft]{graphicx}             % LuaTeX 用, draft がついているときは図の代わりに同じ大きさの枠ができる
+\usepackage{here}                               % 図表の位置を強制して出力
+\usepackage{afterpage}                          % 残っている図を貼り付ける（\afterpage{\clearpage}）
+\usepackage[subrefformat=parens]{subcaption}    % サブキャプション（図1(a) とか）
+\usepackage{setspace}                           % 行間制御
+\usepackage{ulem}                               % 下線や取り消し線など
+\usepackage{booktabs}                           % きれいな表（\toprule \midrule \bottomrule）
+\usepackage{multirow}                           % 表で行結合
+\usepackage{multicol}                           % 表で列結合
+\usepackage{hhline}                             % 表で 2 重線
+\usepackage[table]{xcolor}                      % カラー
+\usepackage{tikz}                               % 図描画用
+\usepackage[framemethod=tikz]{mdframed}         % 文章を囲むとき用
+\usepackage[version=3]{mhchem}                  % 化学式
+\usepackage{siunitx}                            % 単位
+\usepackage{comment}                            % コメント
+\setcounter{tocdepth}{3}                        % 目次に subsubsection まで表示
+% -----ヘッダ・フッタの設定-----
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\lhead{}                                 % 左ヘッダ
+\chead{}                                 % 中央ヘッダ
+\rhead{}                                 % 右ヘッダ
+\lfoot{}                                 % 左フッタ
+\cfoot{\thepage~/~\pageref{LastPage}}    % 中央フッタ
+\rfoot{}                                 % 右フッタ
+\renewcommand{\headrulewidth}{0pt}       % ヘッダの罫線を消す
+% -----余白の設定-----
+% これをアンコメントするとページ番号が中央からずれるから今は使わない．
+% \usepackage[left=19.05mm,right=19.05mm,top=25.40mm,bottom=25.40mm]{geometry}
+% -----フォントの設定-----
+% https://ja.osdn.net/projects/luatex-ja/wiki/LuaTeX-ja%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9
+% http://myfuturesightforpast.blogspot.jp/2013/12/tex-gyre.html など
+\usepackage[no-math]{fontspec}
+\usepackage{amsmath,amssymb}    % 高度な数式用
+\usepackage{mathrsfs}           % 花文字用
+% times ベース -> txfonts
+% palatino ベース -> pxfonts
+\usepackage{txfonts}
+\usepackage{bm}                 % 斜体太字ベクトル
+% Avant Garde -> TeX Gyre Adventor
+% Bookman Old Style -> TeX Gyre Bonum
+% Zapf Chancery -> TeX Gyre Chorus
+% Courier -> TeX Gyre Cursor
+% Helvetica -> TeX Gyre Heros
+% Helvetica Narrow -> TeX Gyre Heros Cn
+% Palatino -> TeX Gyre Pagella
+% New Century Schoolbook -> TeX Gyre Schola
+% Times -> TeX Gyre Termes
+\setmainfont[Ligatures=TeX]{TeXGyreTermes}
+\setsansfont[Ligatures=TeX]{TeXGyreHeros}
+\setmonofont[Scale=MatchLowercase]{TeXGyreCursor}
+\usepackage[match,deluxe,expert,bold]{luatexja-fontspec}
+\setmainjfont[BoldFont=IPAexGothic]{IPAexMincho}
+\setsansjfont{IPAexGothic}
+\usepackage{luatexja-otf}
+% -----PDF ハイパーリンク，ブックマーク，URL の設定-----
+% オプション（\hypersetup{}）は https://texwiki.texjp.org/?hyperref 参照
+\usepackage{url}
+% -----ソースコードの設定-----
+% オプション（\lstset{}）は http://tug.ctan.org/tex-archive/macros/latex/contrib/listings/listings.pdf 参照
+% 使うときは
+% \begin{lstlisting}[language=aaaa,caption=bbbb,label=List:cccc]
+% hogehoge
+% \end{lstlisting}
+\usepackage{listings}
+\lstset{%
+  basicstyle=\ttfamily\small,%
+  frame=single,%
+  frameround=ffff,%
+  numbers=left,%
+  stepnumber=1,%
+  numbersep=1\zw,%
+  breaklines=true,%
+  tabsize=4,%
+  captionpos=t,%
+  commentstyle=\itshape}
+% -----図表等の reference の設定-----
+% 表示文字列を日本語化
+\renewcommand{\figurename}{図}
+\renewcommand{\tablename}{表}
+\renewcommand{\lstlistingname}{リスト}
+\renewcommand{\abstractname}{概要}
+% 図番号等を"<章番号>.<図番号>"
+% lstlisting に関しては https://tex.stackexchange.com/questions/134418/numbering-of-listings 参照
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\AtBeginDocument{\renewcommand{\thelstlisting}{\thesection.\arabic{lstlisting}}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+% 節が進むごとに図番号等をリセット
+% http://d.hatena.ne.jp/gp98/20090919/1253367749 参照
+\makeatletter
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\@addtoreset{lstlisting}{section}
+\@addtoreset{equation}{section}
+\makeatother
+% \ref{} の簡単化
+\newcommand*{\refSec}[1]{\ref{#1}~章}
+\newcommand*{\refSsec}[1]{\ref{#1}~節}
+\newcommand*{\refSssec}[1]{\ref{#1}~項}
+\newcommand*{\refFig}[1]{\figurename~\ref{#1}}
+\newcommand*{\refTab}[1]{\tablename~\ref{#1}}
+\newcommand*{\refList}[1]{\lstlistingname~\ref{#1}}
+\newcommand*{\refEq}[1]{式~(\ref{#1})}
+% -----数式中便利な定義-----
+% https://www.library.osaka-u.ac.jp/doc/TA_LaTeX2.pdf
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics など
+\newcommand{\e}{\mathrm{e}}                     % ネイピア数
+\newcommand{\imagi}{\mathrm{i}}                 % 虚数単位（i）
+\newcommand{\imagj}{\mathrm{j}}                 % 虚数単位（j）
+\newcommand{\vDel}{\varDelta}                   % デルタ大文字
+\newcommand{\veps}{\varepsilon}                 % イプシロン小文字
+\newcommand*{\paren}[1]{\left( #1 \right)}      % () を中身の大きさに合わせる
+\newcommand*{\curly}[1]{\left\{ #1 \right\}}    % {} を中身の大きさに合わせる
+\newcommand*{\bracket}[1]{\left[ #1 \right]}    % [] を中身の大きさに合わせる
+\renewcommand{\Re}{\operatorname{Re}}           % 実部
+\renewcommand{\Im}{\operatorname{Im}}           % 虚部
+\newcommand*\sfrac[2]{{}^{#1}\!/_{#2}}          % xfrac パッケージの \sfrac{}{} の代わり
+\renewcommand*\vec[1]{\mathbf{#1}}              % 矢印ベクトルは使わないので上書き．太字立体．
+
+\title{知的システム構成論課題\\堀先生担当分}
+\author{航空宇宙工学専攻修士一年\\荒居秀尚}
+
+\begin{document}
+\maketitle
+
+\section{対象とするシステム}
+今回のレポートにおいては、人間を支援する人間-機械系と、機械が自動的に仕事をする自動システムの組み合わせの
+あり方に関する考察を「プログラミング」という分野に関して行う。議論の簡略化のため、「プログラミング」という言葉は
+本稿においては、「言語を用いて計算機に動作をさせること」と定義する。\\
+
+本稿では以下の流れで議論を進める。
+\begin{enumerate}
+  \item プログラミングと自動化の歴史
+  \item 現在のプログラミングおよびその活動支援の自動化の例
+  \item プログラミングにまつわる自動化の組み合わせ
+  \item 自動化の生み出したもの、生み出すもの
+\end{enumerate}
+\section{プログラミングと自動化の歴史}
+\subsection{プログラミング自体の自動化の歴史}
+プログラミングと自動化は切っても切り離せない関係にある。そもそも現状では、「自動化」と言った場合ほぼ確実に
+プログラミングという行為が介在することになる。もちろんハードウェア的に、すなわち機構的な工夫によって自動化を
+行う例も少なくないが、コンピュータの登場以後は産業構造を大きく変えるほどに自動化が進んだことを考えると、現代に
+おいては自動化においてはほぼ確実にコンピュータに人間の担っていた役割の何がしかを任せるという行為が発生し
+それを行う手段こそがプログラミングである。\\
+
+プログラミングという行為はそれ自体の自動化も進めながら発展してきたことも特徴的である。当初は0と1の羅列を
+コーディングする必要があったものを、ニーモニックを用いて人間により理解しやすいようにしたアセンブリ言語は
+それまで人間の頭の中で行われていた、メモリ操作やループなどの基本的な演算操作を0と1に直す、という「翻訳作業」
+を自動化したと言える。\\
+また、その後登場したFORTRANなどの高水準言語はコンパイラに、「低水準言語への翻訳、あるいは分解」を任せることで
+人間の「目的のために問題をより小さな記述単位まで落としこむ」という作業の一部を自動化した。\\
+また、「関数」「サブルーチン」「メソッド」などと呼ばれる言語仕様の開発は同じ記述を繰り返し書くという作業を減らすことで人間
+の負担を減らした効率化の例であると言えるし、型のシステムは本来行ってはいけない計算をしないように人間が気を
+付けなければいけなかった部分を計算機によるチェックで肩代わりした例と言える。\\
+オブジェクト指向の登場は、プログラムの設計をより容易にし「工程の複雑性を取り除く」という形で自動化をしたとも言える。\\
+
+このように、プログラミングは自動化とは切っても切り離せない関係にあり、それ自体も自動化されることを避けられない
+存在である~\cite{plmaking}。
+\subsection{プログラミングを支援する自動化の歴史}
+プログラミングそれ自体がその一部を自動化され続けながら発展してきた一方でプログラミングという活動を支援する
+系も自動化され続けてきたといえる。\\
+
+例えば、プログラミングにおいてはいまや必須といっても差し支えないテキストエディタであるが、プログラミング言語
+登場の頃は、パンチカードに穴を開ける穿孔機がその役割を担っていることを考えると多くの自動化がなされてきたと
+いうのは容易に理解できる~\cite{punchcard}。
+今では、シンタックスハイライト機能によって人間の認知機能の一部を補完したり、コード
+補完機能によって処理を記憶する、という認知作業を自動化によって肩代わりしているとも言える。\\
+また、gitやsubversionなどのバージョン管理システムは人間による編集履歴の管理という部分を自動化したものと
+言える。\\
+近年のクラウドの発達は、計算資源の確保という部分の一部を自動化した一方で、複数の計算機の協調の必要性を
+今まで以上に明確にし、結果として分散実行の自動化という自動化需要も産んだ。\\
+
+プログラミング活動の支援と、プログラミングそのものはしばしば境界がかなり曖昧なためほとんど融合しているもの
+となることもある。たとえば、アプリケーションフレームワークは、アプリケーションの作成を支援するソフトウェアであって、
+アプリケーションの作成において決まりきった部分の自動化を行い、ユーザは自動化できない部分のみを記述すれば
+良いというものであるが、自動化自体はプログラミングそのものを自動化しているとも言える。\\
+\section{現在のプログラミングおよびその活動支援の自動化の例}
+\subsection{フレームワーク}
+例としてWebアプリケーションフレームワークの一つである。Ruby on Railsを挙げることにする~\cite{RubyOnRails}。
+Ruby on Railsは俗に「フルスタックな」フレームワークと呼ばれるようにWebアプリケーション作成のあらゆる部分を
+包括して支援するようなフレームワークである。その名前にもあるように、ユーザが「まるでレールに乗っているかのように」
+アプリケーションを作成できるように設計されている。このフレームワークにおける自動化についていくつか例を挙げる。\\
+
+まず、テンプレート作成機能についてであるが、Ruby on Railsでは1コマンドで設計に必要なファイル郡やフォルダ
+の雛形が用意できるようになっている。これは、「Webアプリケーションでこのような機能を作りたかったらこのような
+ファイルが必要である」という経験値を結晶化した機能であると言える。\\
+また、ユーザはHTMLを直に全て1から書く必要はなく、部分的なHTMLテンプレートに記述を行うだけでERBと呼ばれる
+テンプレートエンジンがアセンブルしたHTMLを書き出す。また、よく使われるHTMLスニペットはRailsの中で定義された
+メソッドとして提供されているが、これはRailsのスニペットを書くことでHTMLスニペットが生成されることに相当し
+プログラミング自体の自動化を行っているとも言える。\\
+また、ORマッパーというソフトウェアにより、SQLコードをRubyのコードでラップしてデータベース内のテーブルやレコード
+に対してオブジェクト指向的取り扱いができるようにされている。これは、Rubyのコードを書くことによって背後でSQLの
+コードが生成されていることに相当しプログラミングそのものの自動化と言っても差し支えない。\\
+
+以上のような各種の自動化機能によって全体としてユーザのコード記述量を減らしているのがWebアプリケーション
+フレームワークであるが結果として、「ユーザがライブラリを使ってコードを書き、アプリケーションを作成する」という
+一連の流れを「フレームワークがコードを書き、人間が必要な部分を埋めてアプリケーションを作成する」という流れに
+変化させた点が大きな特徴であると言える。
+\subsection{グラフィカルプログラミング}
+グラフィカルプログラミング、あるいはビジュアルプログラミングはプログラミング支援技術の一種であるが、同時に
+人間の理解のしやすいデータ記述の方式から中間的なテキストベース言語ソースの出力、あるいは機械語までコンパイル
+する、などプログラミングそのものの自動化の例とも言える。\\
+
+ビジュアルプログラミング自体はプログラミングという行為の参入障壁を引き下げていると考えられ、自動化によって
+プログラミング活動を支援している好例である。例としては、Mathworks社の製品であるSimulink\cite{simulink}
+やゲームエンジンUnreal Engineに組み込まれているBlue Print\cite{blueprint}などがあげられる。\\
+Simulinkは、制御工学で用いられるブロック線図を作成することでC言語のソースコードが生成されるようになっており
+科学技術計算においてよく用いられている。また、Blue PrintはC++言語で行えるほぼすべての処理を記述する
+ことができるようになっており、型のエラーなどのミスを事前に防ぐという意味でも人間の活動を支援している自動化
+ツールの一例と言える。
+\subsection{テキストエディタ、IDE}
+テキストエディタ、またはIDEなどはプログラミング活動を支援する人間-機械系の代表的なものであると言える。現在
+ではテキストエディタはプログラミングにおいては必須の道具であり、プログラマの生産性を向上させる様々な仕組みが
+組み込まれていることが多い。\\
+
+テキストエディタやIDEなどに含まれる機能の例を挙げると、シンタックスハイライト、コード補完、コード実行、スタイル提案、
+各種システムとの連携などが挙げられる。\\
+シンタックスハイライトはコードの可読性を大幅に向上させるほか、コード補完はコーディング作業の効率化や人間の
+記憶の補助を行う。コードの実行は出力を確認しながらのコーディングができるように支援をし、スタイルの提案はコードの
+可読性向上や一貫性、複数人での開発の補助をしている。\\
+
+近年では、IDEによるコードの分析機能なども発達しており変数名の提案など、よりプログラミング自体にも関わるような
+部分も自動化されつつあるのも注目に値する~\cite{codeanalysis}。
+\subsection{Webフロントエンドの自動生成}
+近年の深層学習技術の流行に伴い、Web制作の現場においてコーディングの自動化を試みた例が存在する~
+\cite{autowebprogramming}。
+\bibliographystyle{junsrt}
+\bibliography{reference}
+\end{document}
