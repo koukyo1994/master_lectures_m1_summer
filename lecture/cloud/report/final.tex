@@ -1,0 +1,205 @@
+\documentclass[10pt,a4paper]{ltjsarticle}       % LuaTeX を使う
+\usepackage[luatex,draft]{graphicx}             % LuaTeX 用, draft がついているときは図の代わりに同じ大きさの枠ができる
+\usepackage{here}                               % 図表の位置を強制して出力
+\usepackage{afterpage}                          % 残っている図を貼り付ける（\afterpage{\clearpage}）
+\usepackage[subrefformat=parens]{subcaption}    % サブキャプション（図1(a) とか）
+\usepackage{setspace}                           % 行間制御
+\usepackage{ulem}                               % 下線や取り消し線など
+\usepackage{booktabs}                           % きれいな表（\toprule \midrule \bottomrule）
+\usepackage{multirow}                           % 表で行結合
+\usepackage{multicol}                           % 表で列結合
+\usepackage{hhline}                             % 表で 2 重線
+\usepackage[table]{xcolor}                      % カラー
+\usepackage{tikz}                               % 図描画用
+\usepackage[framemethod=tikz]{mdframed}         % 文章を囲むとき用
+\usepackage[version=3]{mhchem}                  % 化学式
+\usepackage{siunitx}                            % 単位
+\usepackage{comment}                            % コメント
+\setcounter{tocdepth}{3}                        % 目次に subsubsection まで表示
+% -----ヘッダ・フッタの設定-----
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\lhead{}                                 % 左ヘッダ
+\chead{}                                 % 中央ヘッダ
+\rhead{}                                 % 右ヘッダ
+\lfoot{}                                 % 左フッタ
+\cfoot{\thepage~/~\pageref{LastPage}}    % 中央フッタ
+\rfoot{}                                 % 右フッタ
+\renewcommand{\headrulewidth}{0pt}       % ヘッダの罫線を消す
+% -----余白の設定-----
+% これをアンコメントするとページ番号が中央からずれるから今は使わない．
+% \usepackage[left=19.05mm,right=19.05mm,top=25.40mm,bottom=25.40mm]{geometry}
+% -----フォントの設定-----
+% https://ja.osdn.net/projects/luatex-ja/wiki/LuaTeX-ja%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9
+% http://myfuturesightforpast.blogspot.jp/2013/12/tex-gyre.html など
+\usepackage[no-math]{fontspec}
+\usepackage{amsmath,amssymb}    % 高度な数式用
+\usepackage{mathrsfs}           % 花文字用
+% times ベース -> txfonts
+% palatino ベース -> pxfonts
+\usepackage{txfonts}
+\usepackage{bm}                 % 斜体太字ベクトル
+% Avant Garde -> TeX Gyre Adventor
+% Bookman Old Style -> TeX Gyre Bonum
+% Zapf Chancery -> TeX Gyre Chorus
+% Courier -> TeX Gyre Cursor
+% Helvetica -> TeX Gyre Heros
+% Helvetica Narrow -> TeX Gyre Heros Cn
+% Palatino -> TeX Gyre Pagella
+% New Century Schoolbook -> TeX Gyre Schola
+% Times -> TeX Gyre Termes
+\setmainfont[Ligatures=TeX]{TeXGyreTermes}
+\setsansfont[Ligatures=TeX]{TeXGyreHeros}
+\setmonofont[Scale=MatchLowercase]{TeXGyreCursor}
+\usepackage[match,deluxe,expert,bold]{luatexja-fontspec}
+\setmainjfont[BoldFont=IPAexGothic]{IPAexMincho}
+\setsansjfont{IPAexGothic}
+\usepackage{luatexja-otf}
+% -----PDF ハイパーリンク，ブックマーク，URL の設定-----
+% オプション（\hypersetup{}）は https://texwiki.texjp.org/?hyperref 参照
+\usepackage{url}
+% -----ソースコードの設定-----
+% オプション（\lstset{}）は http://tug.ctan.org/tex-archive/macros/latex/contrib/listings/listings.pdf 参照
+% 使うときは
+% \begin{lstlisting}[language=aaaa,caption=bbbb,label=List:cccc]
+% hogehoge
+% \end{lstlisting}
+\usepackage{listings}
+\lstset{%
+  basicstyle=\ttfamily\small,%
+  frame=single,%
+  frameround=ffff,%
+  numbers=left,%
+  stepnumber=1,%
+  numbersep=1\zw,%
+  breaklines=true,%
+  tabsize=4,%
+  captionpos=t,%
+  commentstyle=\itshape}
+% -----図表等の reference の設定-----
+% 表示文字列を日本語化
+\renewcommand{\figurename}{図}
+\renewcommand{\tablename}{表}
+\renewcommand{\lstlistingname}{リスト}
+\renewcommand{\abstractname}{概要}
+% 図番号等を"<章番号>.<図番号>"
+% lstlisting に関しては https://tex.stackexchange.com/questions/134418/numbering-of-listings 参照
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\AtBeginDocument{\renewcommand{\thelstlisting}{\thesection.\arabic{lstlisting}}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+% 節が進むごとに図番号等をリセット
+% http://d.hatena.ne.jp/gp98/20090919/1253367749 参照
+\makeatletter
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\@addtoreset{lstlisting}{section}
+\@addtoreset{equation}{section}
+\makeatother
+% \ref{} の簡単化
+\newcommand*{\refSec}[1]{\ref{#1}~章}
+\newcommand*{\refSsec}[1]{\ref{#1}~節}
+\newcommand*{\refSssec}[1]{\ref{#1}~項}
+\newcommand*{\refFig}[1]{\figurename~\ref{#1}}
+\newcommand*{\refTab}[1]{\tablename~\ref{#1}}
+\newcommand*{\refList}[1]{\lstlistingname~\ref{#1}}
+\newcommand*{\refEq}[1]{式~(\ref{#1})}
+% -----数式中便利な定義-----
+% https://www.library.osaka-u.ac.jp/doc/TA_LaTeX2.pdf
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics など
+\newcommand{\e}{\mathrm{e}}                     % ネイピア数
+\newcommand{\imagi}{\mathrm{i}}                 % 虚数単位（i）
+\newcommand{\imagj}{\mathrm{j}}                 % 虚数単位（j）
+\newcommand{\vDel}{\varDelta}                   % デルタ大文字
+\newcommand{\veps}{\varepsilon}                 % イプシロン小文字
+\newcommand*{\paren}[1]{\left( #1 \right)}      % () を中身の大きさに合わせる
+\newcommand*{\curly}[1]{\left\{ #1 \right\}}    % {} を中身の大きさに合わせる
+\newcommand*{\bracket}[1]{\left[ #1 \right]}    % [] を中身の大きさに合わせる
+\renewcommand{\Re}{\operatorname{Re}}           % 実部
+\renewcommand{\Im}{\operatorname{Im}}           % 虚部
+\newcommand*\sfrac[2]{{}^{#1}\!/_{#2}}          % xfrac パッケージの \sfrac{}{} の代わり
+\renewcommand*\vec[1]{\mathbf{#1}}              % 矢印ベクトルは使わないので上書き．太字立体．
+% -----タイトル-----
+\title{クラウドコンピューティング基礎論最終課題}
+\author{工学系研究科航空宇宙専攻\\荒居 秀尚}
+\date{\today}
+% -----プリアンブルここまで-----
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\section{キャッシングによる通信の遅延低減の手法に関して}
+本稿では、数あるインターネットの遅延低減手法の中でも、接続に関するキャッシュを保存しておくことによって、通信
+の立ち上げのタイムロス低減を図る取り組み2つに関してレビューを行う。2つの手法はそれぞれ、DNSのプリフェッチ
+とTCPコネクションのキャッシングを用いるもの\cite{sundaresan2012accelerating}と、データアクセス
+のキャッシングと関連データのプリフェッチを用いるもの\cite{chen2007data}である。これらに関して順番に
+レビューを行う。
+\section{Accelerating Last-Mile Web Performance with Popularity-Based Prefetching}
+\subsection{掲げている課題と提案手法}
+この論文で掲げられている課題は、クライアント側に最も近い部分で発生する通信の遅延である。筆者らは、この問題
+を解決するために、DNSのプリフェッチとユーザが頻繁に訪れるWebサイトのTCPコネクションのキャッシングを提案し
+ている。DNSのプリフェッチやTCPコネクションの継続は既に一般的に行われているものであるが、これらは接続予測
+に基づいたものであり、実際のユーザの行動とは乖離している可能性がある。筆者らは、過去のユーザの接続履歴に
+基づいたDNSプリフェッチやTCPコネクションの継続を提案しそれをシミュレーションにより評価した。
+\subsection{提案手法の詳細}
+筆者らが提案した手法は以下の2つから構成される。
+\begin{description}
+  \item [dnsmasqの増強] ホームネットワークの名前解決履歴に基づいたドメインリストの保持
+  \item [polipo] ユーザが頻繁に訪れるコネクションを保持するHTTPプロキシ
+\end{description}
+そして保持されたDNSリストの中で失効したドメインを更新し、TCPコネクションを維持するために間欠的にダミーの
+HTTP GETメソッドを送信するヘルパースクリプトを用いて高速化を図る。これらの手法の性能に関わるパラメータは
+\begin{itemize}
+  \item ドメインとコネクションのリスト長
+  \item ドメイン保持とコネクション保持のタイムアウト時間
+\end{itemize}
+である。これらの最適化をルータに実装することで、ネットワーク内の全てのデバイスに実装を行うことなく最適化をする
+事ができるほか、ホームネットワーク内の参照履歴に基づいた最適化を図ることができると筆者らは主張する。
+\subsection{提案手法の評価}
+筆者らはシミュレータを用いてこれらの提案手法の評価を行った。DNSのプリフェッチに関しては、提案手法を用いない
+場合に比べ、DNSキャッシュにアクセスする頻度が15\%-35\%程度増加し、名前解決にかかるオーバーヘッドを大きく
+低減した一方で、世帯ごとのネットワーク利用状況に依存してばらつきが出るとしている。\\
+
+また、TCPコネクションのキャッシングは、コネクション維持時間を少し取るだけでも大きくTCPコネクションのオーバーヘッド
+を低減できたとしている。
+\subsection{提案手法の利点と欠点}
+提案手法はいくつか利点と欠点を抱えていると思われる。まず、利点としてはユーザの利用履歴を用いた最適化を行う
+ことにより、一般的な予測よりもより個人の行動にフィットした最適化を行うことができると考えられる。また、実装の手間
+としても大きくないと考えられ、最適化の仕組みを組み込んだルータを利用するだけでユーザはその最適化の恩恵を
+得ることができると考えられる。\\
+
+一方で欠点としては、TCPコネクションを維持することでサーバー側にはより負荷をかけることになる。また、大学など
+大きな組織内での利用を行う場合には、多人数が様々なWebサイトへのアクセスをする状況も考えられ、利用頻度が
+高いドメインやTCPコネクションが分散する可能性が考えられ、通常の接続予測に基づいたプリフェッチとほとんど差が
+なくなるか、性能を悪化させる可能性も考えられる。また、TCPのコネクション維持をすることはセキュリティホールに繋がる
+可能性も考えられる。
+\section{Data Access History Cache and Associated Data Prefetching Mechanisms}
+\subsection{掲げられている課題と提案手法}
+この論文で掲げられている課題は、ネットワークアクセスに関するものではなくメモリアクセスに関するものである。通常
+メモリのアクセスの高速化には、利用されることが予測されるデータに関してより高速にアクセスできるような、すなわち
+プロセッサに近い側のメモリに配置することで対応する。このキャッシングにおいては通常、データの時間的空間的局所
+参照性を用いる。すなわち、最近アクセスされたデータや、現在アクセスされているデータ近傍のデータなどを事前に
+キャッシングすることで高速化を図る。しかし、このような局所参照性はアプリケーションによっては存在しないこともある。\\
+筆者らはこの問題に対応するために、過去のデータアクセス履歴を保存しその解析に役立てることができるデータ構造
+を提案している。
+\subsection{提案手法の詳細}
+筆者らが提案した手法は、データにアクセスしてくるPCのインデックスを保存するテーブルと、アクセスされるデータの
+インデックスを保存するテーブル、そしてデータアクセス履歴を保存するテーブルからなる。PCのテーブルには、PCにユニーク
+なインデックスを振ったものと、一番新しいデータアクセスのデータアクセス履歴テーブル上でのインデックスを保存し、
+データのインデックスを保存するテーブルにも同様の値を保存する。データアクセス履歴を保存するテーブルには、各
+レコードごとにPCのインデックス、PCのポインタ、データアドレスのインデックス、そのポインタ、そしてそのアクセスの履歴
+を保存する。このテーブルを用いることで、各PCからの各データのアクセスパターンを解析できる、というのが筆者らの
+主張である。
+\subsection{提案手法の有効性}
+提案手法を、ネットワークアクセスに関連して利用する場合に関して述べる。このテーブルに関しては、本来メモリアクセス
+がボトルネックになるようなアプリケーションで威力を発揮すると考えられ、ネットワークアクセスのようなメモリアクセスが
+大きな問題とはならないようなアプリケーションではあまり大きな効果はないと考えられる。一方で、同様のデータ構造を
+用いてユーザのアクセス履歴を元にDNSルックアップとTCPコネクションを維持する手法
+\cite{sundaresan2012accelerating}のためのアクセス履歴保持を行うことはできると考えられる。\\
+
+一方で、そのような用途の場合にはアクセス回数を直接カウントするようなデータ構造のほうがより直接的に効果を発揮
+できると考えられるため、今回提案されているデータ構造をネットワークアクセスにおいて利用する必要性は高くないと
+考えられる。
+\bibliographystyle{junsrt}
+\bibliography{reference}
+\end{document}
